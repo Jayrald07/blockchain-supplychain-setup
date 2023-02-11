@@ -1,0 +1,26 @@
+.btn-container {
+  display: grid;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-end {
+  justify-self: end;
+}
+
+.btn-start {
+  justify-self: start;
+}
+
+.btn-center {
+  justify-self: center;
+}
+
+.btn {
+  border: none;
+  padding: 10px 20px;
+  background-color: var(--dark-blue);
+  color: var(--light);
+}

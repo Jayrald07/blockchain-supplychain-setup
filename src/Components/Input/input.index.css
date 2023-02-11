@@ -1,0 +1,37 @@
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.input-container select,
+.input-container input {
+  border: none;
+  padding: 10px 15px;
+  width: 100%;
+}
+
+.input-container {
+  border: 1px solid rgb(228, 228, 228);
+  background-color: rgb(235, 235, 235);
+}
+
+.input-icon-container {
+  padding: 0 10px;
+  color: var(--dark-blue);
+}
+
+.input-container-p {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.input-container-p label {
+  font-size: 10pt;
+  margin-bottom: 10px;
+  display: block;
+  user-select: none;
+}
+/* ::selection {
+  background: transparent;
+  cursor: default;
+} */

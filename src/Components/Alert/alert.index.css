@@ -1,0 +1,23 @@
+.alert-container {
+  padding: 10px 20px;
+  background-color: #ebebeb;
+  /* color: var(--light); */
+  margin-bottom: 20px;
+  border-radius: 4px;
+  border: 1px solid rgb(231, 231, 231);
+}
+
+.alert-container h4 {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.alert-success {
+  background-color: #ecffe7;
+  border: 1px solid rgb(174, 204, 179);
+}
+
+.alert-error {
+  background-color: #ffe7e7;
+  border: 1px solid rgb(204, 174, 174);
+}
