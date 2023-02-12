@@ -73,8 +73,8 @@ export default () => {
             password,
             port: "27051",
             msp: `${orgName.replaceAll(" ", "").trim()}MSP`,
+            id: data.details.id,
           });
-          console.log(node);
           if (node.message === "Done") {
             setErrors([]);
             setIsSubmitting(false);
@@ -117,6 +117,17 @@ export default () => {
       const { data } = await api.get("/types");
       setTypes(data.types);
     })();
+    (async () => {
+      const { data } = await peer.get("/getConfig");
+      if (data.message === "Done") {
+        let setup = data.details[0];
+        let id = data.details[1];
+        if (setup.name === "SETUP" && setup.value === "done") {
+          setIsSuccess(true);
+          setIdentifer(id.value);
+        }
+      }
+    })();
   }, []);
 
   return (
@@ -130,7 +141,7 @@ export default () => {
           <div className="setup-instructions">
             <small>
               <b>Your account is already pre-created.</b> <br />
-              To fully connect your host to the web application, <br />
+              To fully connect your node to the web application, <br />
               the following procedure must be done:
             </small>
             <ol>
