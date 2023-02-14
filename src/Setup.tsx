@@ -68,11 +68,9 @@ export default () => {
         });
         if (data.message === "Done") {
           const { data: node } = await peer.post("/initialize", {
-            orgName: `${orgName.replaceAll(" ", "").trim()}.com`,
+            orgName: orgName.replaceAll(" ", "").trim(),
             username,
             password,
-            port: "27051",
-            msp: `${orgName.replaceAll(" ", "").trim()}MSP`,
             id: data.details.id,
           });
           if (node.message === "Done") {
