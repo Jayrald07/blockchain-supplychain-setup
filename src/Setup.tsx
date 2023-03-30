@@ -17,8 +17,8 @@ import { isPasswordValid } from "./utils";
 import AlertIndex from "./Components/Alert/alert.index";
 
 const api = axios.create({ baseURL: "http://localhost:8081" });
-const peer = axios.create({ baseURL: "http://localhost:8012" });
-
+const peer = axios.create({ baseURL: `http://${location.host}` });
+console.log(import.meta.env);
 export default () => {
   const [orgName, setOrgName] = useState("");
   const [orgType, setOrgType] = useState("");
@@ -181,12 +181,12 @@ export default () => {
                 <ul className="errors-content">
                   {errors.length
                     ? errors.map((item: string) => (
-                        <li key={item}>
-                          <small>
-                            <FontAwesomeIcon icon={faChevronRight} /> {item}
-                          </small>
-                        </li>
-                      ))
+                      <li key={item}>
+                        <small>
+                          <FontAwesomeIcon icon={faChevronRight} /> {item}
+                        </small>
+                      </li>
+                    ))
                     : null}
                 </ul>
               </AlertIndex>
