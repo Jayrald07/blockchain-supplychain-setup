@@ -2,6 +2,7 @@ import "./Setup.css";
 import Logo from "./assets/logo.png";
 import Input from "./Components/Input/input.index";
 import {
+  faCheckCircle,
   faChevronRight,
   faEllipsis,
   faKey,
@@ -10,14 +11,16 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import ButtonIndex from "./Components/Button/button.index";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { isPasswordValid } from "./utils";
 import AlertIndex from "./Components/Alert/alert.index";
+import { Socket, io } from "socket.io-client"
 
-const api = axios.create({ baseURL: "http://localhost:8081" });
-const peer = axios.create({ baseURL: `http://${location.host}` });
+
+const api = axios.create({ baseURL: import.meta.env.VITE_BACKEND_API });
+const peer = axios.create({ baseURL: location.origin });
 console.log(import.meta.env);
 export default () => {
   const [orgName, setOrgName] = useState("");
@@ -30,6 +33,8 @@ export default () => {
   const [errors, setErrors]: [string[], any] = useState([]);
   const [isSuccess, setIsSuccess] = useState(false);
   const [identifier, setIdentifer] = useState("");
+  const [processes, setProcesses] = useState<{ name: string, status: boolean }[]>([]);
+  const socket = useRef<Socket>();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,9 +79,6 @@ export default () => {
             id: data.details.id,
           });
           if (node.message === "Done") {
-            setErrors([]);
-            setIsSubmitting(false);
-            setIsSuccess(true);
             setIdentifer(data.details.id);
           } else {
             setIsSubmitting(false);
@@ -109,6 +111,37 @@ export default () => {
     }
     setErrors(listErrors);
   };
+
+  const handleProcess = (data: { message: string, details: { name: string, status: boolean, position: number } }) => {
+    console.log("triggered", processes.length);
+    setTimeout(() => {
+      setProcesses(prevProcesses => {
+        if (prevProcesses[data.details.position]) {
+          prevProcesses[data.details.position].name = data.details.name;
+          prevProcesses[data.details.position].status = data.details.status;
+          return prevProcesses;
+        } else return [...prevProcesses, data.details];
+      })
+    }, 2000);
+  }
+
+  useEffect(() => {
+    socket.current = io(location.origin).on("connected", console.log)
+      .on("generatePorts", handleProcess)
+      .on("createCa", handleProcess)
+      .on("createOrderer", handleProcess)
+      .on("createOrg", handleProcess)
+      .on("finalize", data => {
+        handleProcess(data)
+        if (data.details.status) {
+          setTimeout(() => {
+            setErrors([]);
+            setIsSubmitting(true);
+            setIsSuccess(true);
+          }, 5000);
+        }
+      })
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -242,7 +275,20 @@ export default () => {
           </form>
         </>
       ) : (
-        <FontAwesomeIcon icon={faSpinner} className="spinner" />
+        <ol className="processes-container">
+          {
+            processes.map(process => {
+              return <li key={process.name} className={!process.status ? 'processes-loading-item' : ''}>
+                <span className={!process.status ? 'processes-loading' : ''}>
+                  {process.name}
+                </span>
+                {
+                  process.status ? <FontAwesomeIcon icon={faCheckCircle} className="processes-done" /> : <FontAwesomeIcon icon={faSpinner} className="spinner" />
+                }
+              </li>
+            })
+          }
+        </ol>
       )}
     </div>
   );

@@ -79,6 +79,43 @@
   display: block;
 }
 
+.processes-container {
+  padding: 0;
+  margin: 0;
+}
+
+.processes-container li {
+  display: flex;
+  /* border: 1px solid #dbdbdb; */
+  width: 300px;
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  border-radius: 3px;
+  align-items: center;
+  font-size: 10pt;
+}
+
+.processes-done {
+  color: #3fb93f;
+}
+
+.processes-loading {
+  font-weight: bold;
+}
+
+.processes-loading-item {
+  border: 1px solid #dbdbdb;
+  background-color: #fff;
+}
+
+.processes-container span {
+  width: 100%;
+}
+
+.processes-container svg {
+  font-size: 10pt;
+}
+
 @keyframes stepping {
   0% {
     transform: rotate(0deg);
