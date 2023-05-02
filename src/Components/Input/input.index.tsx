@@ -1,5 +1,6 @@
 import "./input.index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect } from "react";
 
 export default ({
   label,
@@ -9,14 +10,24 @@ export default ({
   multiple = false,
   items = [],
   value = "",
-  handleChange = () => {},
+  handleChange = () => { },
   required = false,
 }: any) => {
+
+
+  useEffect(() => {
+    if (multiple == true) {
+      if (items.length) {
+        handleChange(items[0]._id);
+      } else console.log("s")
+    }
+  }, [items]);
+
   return (
-    <div className="input-container-p">
-      <label>{label}</label>
-      <div className="input-container">
-        <div className="input-icon-container">
+    <div>
+      <label className="text-sm block mb-2">{label}</label>
+      <div className="flex border mb-3 items-center bg-slate-100">
+        <div className="px-3 text-slate-800 bg-slate-100">
           <FontAwesomeIcon icon={icon} />
         </div>
         {!multiple ? (
@@ -26,6 +37,7 @@ export default ({
             placeholder={placeholder}
             value={value}
             onChange={(e: any) => handleChange(e.target.value)}
+            className="outline-none p-2 w-full font-light text-sm"
           />
         ) : (
           <select
@@ -33,6 +45,7 @@ export default ({
             value={value}
             onChange={(e: any) => handleChange(e.target.value)}
             placeholder="Select Type"
+            className="outline-none p-2 w-full font-light text-sm bg-white"
           >
             {items.map((item: any) => (
               <option key={item._id} value={item._id}>

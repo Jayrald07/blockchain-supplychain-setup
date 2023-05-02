@@ -13,3 +13,7 @@ export const isPasswordValid = (password: string) => {
 
     return conditions;
 }
+
+export const cleanString = (value: string) => {
+    return value.replaceAll(/[^a-zA-Z0-9]/g, "");
+}

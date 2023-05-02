@@ -1,4 +1,4 @@
-.input-container {
+/* .input-container {
   display: flex;
   align-items: center;
 }
@@ -31,7 +31,7 @@
   display: block;
   user-select: none;
 }
-/* ::selection {
+::selection {
   background: transparent;
   cursor: default;
 } */

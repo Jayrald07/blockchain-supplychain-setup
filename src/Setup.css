@@ -1,6 +1,9 @@
-.setup-container {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* .setup-container {
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   flex-direction: column;
   height: 100vh;
@@ -86,7 +89,6 @@
 
 .processes-container li {
   display: flex;
-  /* border: 1px solid #dbdbdb; */
   width: 300px;
   margin-bottom: 10px;
   padding: 10px 15px;
@@ -123,4 +125,4 @@
   100% {
     transform: rotate(360deg);
   }
-}
+} */
