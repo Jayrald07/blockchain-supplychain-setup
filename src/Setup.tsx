@@ -18,6 +18,7 @@ import axios from "axios";
 import { cleanString, isPasswordValid } from "./utils";
 import AlertIndex from "./Components/Alert/alert.index";
 import { Socket, io } from "socket.io-client"
+import { Logs } from "./Components/Logs/logs.index";
 
 
 const api = axios.create({ baseURL: import.meta.env.VITE_BACKEND_API });
@@ -204,21 +205,11 @@ export default () => {
             </small>
             <div className="mt-5">
               <h1 className="mb-3">Logs</h1>
-              <details className="border py-2 px-3 bg-white cursor-pointer mb-2">
-                <summary className="text-sm">Mini Server</summary>
-              </details>
-              <details className="border py-2 px-3 bg-white cursor-pointer mb-2">
-                <summary className="text-sm">CA Server</summary>
-                <textarea rows={10} className="w-full text-xs font-light outline-none whitespace-nowrap mt-2">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum autem aperiam ab eligendi ullam ex iure facere reprehenderit sunt quae aliquam nam culpa distinctio excepturi, pariatur nobis minima alias delectus?
-                </textarea>
-              </details>
-              <details className="border py-2 px-3 bg-white cursor-pointer mb-2">
-                <summary className="text-sm">Orderer</summary>
-              </details>
-              <details className="border py-2 px-3 bg-white cursor-pointer mb-2">
-                <summary className="text-sm">Peer</summary>
-              </details>
+              <Logs component="MINI" label="Mini Server" />
+              <Logs component="CA_ORDERER" label="CA Orderer" />
+              <Logs component="CA_PEER" label="CA Peer" />
+              <Logs component="ORDERER" label="Orderer" />
+              <Logs component="PEER" label="Peer" />
             </div>
           </div>
         </div>
@@ -314,15 +305,15 @@ export default () => {
           </div>
         </div>
       ) : (
-        <ol className="processes-container">
+        <ol className="mt-8 text-sm font-light text-center">
           {
             processes.map(process => {
-              return <li key={process.name} className={!process.status ? 'processes-loading-item' : ''}>
-                <span className={!process.status ? 'processes-loading' : ''}>
+              return <li key={process.name} className={!process.status ? 'border bg-white p-2 px-4 font-bold rounded' : 'p-2 px-4'}>
+                <span className={`mr-2 ${!process.status ? 'processes-loading' : ''}`}>
                   {process.name}
                 </span>
                 {
-                  process.status ? <FontAwesomeIcon icon={faCheckCircle} className="processes-done" /> : <FontAwesomeIcon icon={faSpinner} className="spinner" />
+                  process.status ? <FontAwesomeIcon icon={faCheckCircle} className="text-green-800" /> : <FontAwesomeIcon icon={faSpinner} className="animate-spin" />
                 }
               </li>
             })
