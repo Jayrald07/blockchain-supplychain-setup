@@ -185,7 +185,7 @@ export default () => {
                 Copy the ID shown below
                 <pre className="border mt-2 p-2 bg-white block">{identifier}</pre>
               </li>
-              <li>Go to <a href="http://chainblockdirect.live:1234" className="underline">http://chainblockdirect.live:1234</a>, and click "Connect it here".</li>
+              <li>Go to <a href="https://chainblockdirect.live" className="underline">https://chainblockdirect.live</a>, and click "Connect it here".</li>
               <li>
                 Input the ID in the registration form you got from step 1.
               </li>
