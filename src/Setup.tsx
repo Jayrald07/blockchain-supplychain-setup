@@ -1,5 +1,6 @@
 import "./Setup.css";
 import Logo from "./assets/logo.png";
+import Https from "./assets/https.png"
 import Input from "./Components/Input/input.index";
 import {
   faCheckCircle,
@@ -48,7 +49,11 @@ export default () => {
     let listErrors: string[] = [];
 
     if (!orgName.trim())
-      listErrors = [...listErrors, "Organization Name is required"];
+      listErrors = [...listErrors, "Name is required"];
+
+    if (!(/^[a-zA-Z]{4,}$/.test(orgName.trim())))
+      listErrors = [...listErrors, "Name should be letters only and greater than 3"];
+
     if (!orgType.trim())
       listErrors = [...listErrors, "Organization Type is required"];
     if (!username.trim()) listErrors = [...listErrors, "Username is required"];
@@ -81,7 +86,7 @@ export default () => {
             username,
             password,
             id: data.details.id,
-            hostname: isForCurrentHostname ? location.hostname : hostname
+            hostname: location.hostname
           });
           if (node.message === "Done") {
             setIdentifer(data.details.id);
@@ -164,6 +169,8 @@ export default () => {
       }
     })();
 
+    setHostname(location.host)
+
   }, []);
 
   return (
@@ -234,10 +241,12 @@ export default () => {
                   </ul>
                 </AlertIndex>
               ) : null}
+              <small className="font-light block w-full mb-3"><b>Hostname:</b> {location.hostname}</small>
               <Input
-                label="Organization Name"
+                label="Name"
+                description="Input any name that will identify your organization. It should be letters only"
                 type="text"
-                placeholder="Ex: ABC Corporation"
+                placeholder="Ex: abcmetalsupplier"
                 icon={faUsers}
                 value={orgName}
                 handleChange={setOrgName}
@@ -282,25 +291,14 @@ export default () => {
                 required
               />
               {
-                !isForCurrentHostname ?
-                  <Input
-                    label="Host/IP address"
-                    type="text"
-                    placeholder="Ex.: 10.0.0.1 or chaindirect.com"
-                    icon={faServer}
-                    value={hostname}
-                    handleChange={setHostname}
-                    required
-                  /> : <small className="font-light block w-full"><b>Hostname:</b> {location.hostname}</small>
+                location.protocol.trim().includes("s")
+                  ? <ButtonIndex label="Done" position="left" />
+                  : <>
+                    <small className="font-light text-xs text-red-500 block">Please access this setup page with HTTPS</small>
+                    <small className="font-light text-xs block mb-2">You should see a lock icon on the URL tab</small>
+                    <img src={Https} />
+                  </>
               }
-
-              <div className="mb-4">
-                <div className="flex items-center">
-                  <input checked={isForCurrentHostname} type="checkbox" onChange={(e) => setIsForCurrentHostname(e.target.checked)} />
-                  <label className="ml-2 text-sm block">Use current host instead</label>
-                </div>
-              </div>
-              <ButtonIndex label="Done" position="left" />
             </form>
           </div>
         </div>

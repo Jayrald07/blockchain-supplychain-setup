@@ -12,6 +12,7 @@ export default ({
   value = "",
   handleChange = () => { },
   required = false,
+  description = ""
 }: any) => {
 
 
@@ -25,7 +26,8 @@ export default ({
 
   return (
     <div>
-      <label className="text-sm block mb-2">{label}</label>
+      <label className="text-sm block">{label}</label>
+      <small className="font-light text-xs mb-2 block">{description}</small>
       <div className="flex border mb-3 items-center bg-slate-100">
         <div className="px-3 text-slate-800 bg-slate-100">
           <FontAwesomeIcon icon={icon} />
